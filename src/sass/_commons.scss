@@ -1,0 +1,49 @@
+.body {
+  background-color: $primary-bg-color;
+}
+
+.header {  
+  background-color: $header-bg-color;  
+  position: fixed;  
+  top: 0;  
+  z-index: 100;  
+  width: 100%;  
+  padding: 10px 10px;
+  display: flex;
+  justify-items: center;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 1280px;
+  display: flex;
+  justify-content: center;
+  // border: solid 2px tomato;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  outline: none;
+  box-shadow: 0 5px 5px -4px black;
+}
+
+.search-form > input, .search-form > button {
+  border-style: none;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.search-form > input {
+  padding-left: 10px;
+  border-radius: 4px 0 0 4px;
+  outline: none;  
+}
+
+.search-form > button {
+  border-radius: 0 4px 4px 0;
+  padding-left: 10px;  
+  padding-right: 10px;
+  cursor: pointer;
+}
