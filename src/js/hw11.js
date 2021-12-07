@@ -14,6 +14,13 @@ const refs = {
 
 const service = new Api();
 
+// фиксируем хедер и отступ по низу---------------------------
+const { height: pageHeaderHeight } = document
+.querySelector(".header").getBoundingClientRect();
+document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
+document.body.style.paddingBottom = `20px`;
+// -----------------------------------------------------------
+
 // --- Обработка ----------------
 
 const handler = hits => {

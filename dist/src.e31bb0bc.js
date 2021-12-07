@@ -6348,7 +6348,14 @@ const refs = {
   gallery: document.querySelector('.gallery'),
   form: document.getElementById('search-form')
 };
-const service = new _service.Api(); // --- Обработка ----------------
+const service = new _service.Api(); // фиксируем хедер и отступ по низу---------------------------
+
+const {
+  height: pageHeaderHeight
+} = document.querySelector(".header").getBoundingClientRect();
+document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
+document.body.style.paddingBottom = `20px`; // -----------------------------------------------------------
+// --- Обработка ----------------
 
 const handler = hits => {
   refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkUp.default)(hits));
