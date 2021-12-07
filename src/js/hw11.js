@@ -1,7 +1,7 @@
 // --- Импорты ------------------
 import '../sass/main.scss';
 import Notiflix from 'notiflix';
-import cardsMarkUpHbs from '../partials/cardsMarkUp.hbs';
+import cardsMarkUpHbs from '../partials/cardsMarkup.hbs';
 
 import  {Api, hundlerSimpleLightBox, refresher} from './service.js'
 // --- Инициализация ------------

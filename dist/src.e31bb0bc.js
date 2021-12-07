@@ -2210,7 +2210,7 @@ THE SOFTWARE.
 });
 
 ;
-},{}],"partials/cardsMarkUp.hbs":[function(require,module,exports) {
+},{}],"partials/cardsMarkup.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6325,7 +6325,7 @@ require("../sass/main.scss");
 
 var _notiflix = _interopRequireDefault(require("notiflix"));
 
-var _cardsMarkUp = _interopRequireDefault(require("../partials/cardsMarkUp.hbs"));
+var _cardsMarkup = _interopRequireDefault(require("../partials/cardsMarkup.hbs"));
 
 var _service = require("./service.js");
 
@@ -6349,7 +6349,7 @@ document.body.style.paddingBottom = `20px`; // ---------------------------------
 // --- Обработка ----------------
 
 const handler = hits => {
-  refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkUp.default)(hits));
+  refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkup.default)(hits));
   (0, _service.hundlerSimpleLightBox)();
 };
 
@@ -6394,7 +6394,7 @@ observer.observe(refs.scrollTarget); // ------------------------------
 // --- Слушатели ----------------
 
 refs.form.addEventListener('submit', onSubmit);
-},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
+},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkup.hbs":"partials/cardsMarkup.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./sass/main.scss");
@@ -6428,7 +6428,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58071" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60785" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
