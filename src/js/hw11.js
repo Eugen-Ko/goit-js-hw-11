@@ -1,9 +1,9 @@
 // --- Импорты ------------------
 import '../sass/main.scss';
 import Notiflix from 'notiflix';
-// import renderCard  from './templase/markup.hbs';
+import cardsMarkUpHbs from '../partials/cardsMarkUp.hbs';
 // import {imageOfLightbox} from './js/lightbox.js';
-import  {Api} from './service.js'
+import  {Api, hundlerSimpleLightBox} from './service.js'
 
 // --- Инициализация ------------
 
@@ -16,24 +16,29 @@ const service = new Api();
 
 // --- Обработка ----------------
 
+const handler = hits => {
+  refs.gallery.insertAdjacentHTML('beforeend', cardsMarkUpHbs(hits))
+  hundlerSimpleLightBox();
+};
+
 const onSubmit = (e) => {
   e.preventDefault(e);
-  console.log(e.target[0].value);
+
   service.searchValue = e.target[0].value;
 
   try {
-    if (service.searchValue === '') return Notiflix.Notify.failure('No value entered');  
+    if (service.searchValue === '') {return Notiflix.Notify.failure('No value entered')};
     
-    console.log(response);
-    return response;
+    service.resetPage();
+    service.fetch()
+      .then(response => {
+        Notiflix.Notify.info(`Found ${response.data.total} photos !!!`);
+        handler(response.data.hits)});
     }
   catch (error) {
     console.error(error);
   }
 }
-
-
-
 
 // --- Слушатели ----------------
 refs.form.addEventListener('submit', onSubmit);

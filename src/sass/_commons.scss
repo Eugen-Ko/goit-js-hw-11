@@ -47,3 +47,55 @@
   padding-right: 10px;
   cursor: pointer;
 }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 290px);
+  grid-auto-rows: 217px;
+  gap: 30px;
+}
+
+.photo-card {
+  position: relative;
+  transform: scale(1);
+  box-shadow: 0 5px 5px -4px black;
+}
+
+.photo-card:hover,
+.photo-card:focus {
+  transform: scale(1.1);
+  transition-duration: 250ms;
+}
+
+.photo-card img {
+  // width: 290px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.image {
+  box-shadow: 10px 10px 10px #000;
+  border-radius: 5px;
+  // width: 290px
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  // margin: 5px;
+  border-radius: 5px;
+  display: flex;
+  padding: 0 5px;
+  background-color: rgba(32, 31, 31, 0.89);
+  width: 100%;
+  height: 40px;
+}
+.info-item {
+  font-size: 12px;
+  color: grey;
+  text-align: center;
+  margin-right: 5px;
+}

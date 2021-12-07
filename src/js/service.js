@@ -1,10 +1,13 @@
-// --- Импорт -------------------
+// --- Импорт ------------------------------
 import axios from 'axios';
 
-// --- Класс с обработчиками ----
-class Api {
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+// --- Класс с обработчиками ---------------
+export class Api {
   constructor() {
-    this.page = 1;
+    this.page = 0;
     this.searchValue = '';
   }
   
@@ -21,43 +24,43 @@ class Api {
   }
   
   incrementPage() {
-    this.Page +=1;
+    this.page +=1;
+  }
+
+  resetPage() {
+    this.page = 0;
   }
 
   nextPage() {}
-  
+
   async fetch() {
-      this.incrementPage();
-        return await axios.get('https://pixabay.com/api/?key=24625422-32b02834f3df76db1a58654ff', {
-      params: {
-       q: `${this.serchQuery}`,
-       page: `${this.page}`,
+    this.incrementPage();
+    return await axios({
+      method: 'get',
+      url: 'https://pixabay.com/api/', 
+      params: { 
+        key : '24592652-81dd428b6cc1f580195381066',
+        q : `${this.searchValue}`,
+        page: `${this.page}`,
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true',
         per_page: 40,  
       },
-        })
-   }
-  
-  //  incrementPage() {
-  //     this.page += 1;
-  //  }
-
-  //   resetPage() {
-  //     this.page = 1;
-  //  }
-
-  //  get query() {
-  //     return this.serchQuery;
-  //  }
-
-  //  set query(newQuery) {
-  //     this.serchQuery = newQuery;
-  //  }
-
+    });
+  }
 }
 
-// --- Экспорт -----------------------
+// --- Просмотрщик изображений --------------
+export const hundlerSimpleLightBox = () => {
+  return lightbox = new SimpleLightbox(".gallery a", 
+  {
+    captionSelector: "img", 
+  //   captionsData: "alt", 
+    captionPosition: "bottom", 
+    captionDelay: 250, 
+    showCounter: false, 
+    scrollZoom: false,     
+  }); 
+}
 
-export {Api};
