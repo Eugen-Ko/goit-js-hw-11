@@ -4,9 +4,6 @@ import Notiflix from 'notiflix';
 import cardsMarkUpHbs from '../partials/cardsMarkUp.hbs';
 
 import  {Api, hundlerSimpleLightBox, refresher} from './service.js'
-
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 // --- Инициализация ------------
 
 const refs = {
@@ -29,10 +26,6 @@ document.body.style.paddingBottom = `20px`;
 const handler = hits => {
   refs.gallery.insertAdjacentHTML('beforeend', cardsMarkUpHbs(hits))
   hundlerSimpleLightBox();
-  var gallery2 = $('.gallery a').simpleLightbox();
-
-gallery2.next(); // Next Image
-  // gallery.SimpleLightbox.refresher();
 };
 
 const onSubmit = (e) => {
