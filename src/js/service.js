@@ -52,7 +52,3 @@ export const hundlerSimpleLightBox = () => {
   }); 
   return lightbox; 
 }
-
-export const refresher = (gallery) => {console.log(gallery); 
-
-gallery.refresh()}

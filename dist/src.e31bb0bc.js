@@ -6255,7 +6255,7 @@ global.SimpleLightbox = SimpleLightbox;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.refresher = exports.hundlerSimpleLightBox = exports.Api = void 0;
+exports.hundlerSimpleLightBox = exports.Api = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -6318,13 +6318,6 @@ const hundlerSimpleLightBox = () => {
 };
 
 exports.hundlerSimpleLightBox = hundlerSimpleLightBox;
-
-const refresher = gallery => {
-  console.log(gallery);
-  gallery.refresh();
-};
-
-exports.refresher = refresher;
 },{"axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css","./hw11":"js/hw11.js"}],"js/hw11.js":[function(require,module,exports) {
 "use strict";
 
@@ -6335,10 +6328,6 @@ var _notiflix = _interopRequireDefault(require("notiflix"));
 var _cardsMarkUp = _interopRequireDefault(require("../partials/cardsMarkUp.hbs"));
 
 var _service = require("./service.js");
-
-var _simplelightbox = _interopRequireDefault(require("simplelightbox"));
-
-require("simplelightbox/dist/simple-lightbox.min.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6362,9 +6351,6 @@ document.body.style.paddingBottom = `20px`; // ---------------------------------
 const handler = hits => {
   refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkUp.default)(hits));
   (0, _service.hundlerSimpleLightBox)();
-  var gallery2 = $('.gallery a').simpleLightbox();
-  gallery2.next(); // Next Image
-  // gallery.SimpleLightbox.refresher();
 };
 
 const onSubmit = e => {
@@ -6408,7 +6394,7 @@ observer.observe(refs.scrollTarget); // ------------------------------
 // --- Слушатели ----------------
 
 refs.form.addEventListener('submit', onSubmit);
-},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css"}],"index.js":[function(require,module,exports) {
+},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./sass/main.scss");
@@ -6442,7 +6428,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52389" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56254" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
