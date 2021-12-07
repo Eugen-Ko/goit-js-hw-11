@@ -41,7 +41,7 @@ export class Api {
 
 // --- Просмотрщик изображений --------------
 export const hundlerSimpleLightBox = () => {
-  return lightbox = new SimpleLightbox(".gallery a", 
+  const lightbox = new SimpleLightbox(".gallery a", 
   {
     captionSelector: "img", 
   //   captionsData: "alt", 
@@ -50,7 +50,9 @@ export const hundlerSimpleLightBox = () => {
     showCounter: false, 
     scrollZoom: false,     
   }); 
+  return lightbox; 
 }
 
-export const refresher = () => refs.gallery.refresh();
+export const refresher = (gallery) => {console.log(gallery); 
 
+gallery.refresh()}

@@ -6306,7 +6306,7 @@ class Api {
 exports.Api = Api;
 
 const hundlerSimpleLightBox = () => {
-  return lightbox = new _simplelightbox.default(".gallery a", {
+  const lightbox = new _simplelightbox.default(".gallery a", {
     captionSelector: "img",
     //   captionsData: "alt", 
     captionPosition: "bottom",
@@ -6314,20 +6314,19 @@ const hundlerSimpleLightBox = () => {
     showCounter: false,
     scrollZoom: false
   });
+  return lightbox;
 };
 
 exports.hundlerSimpleLightBox = hundlerSimpleLightBox;
 
-const refresher = () => _hw.refs.gallery.refresh();
+const refresher = gallery => {
+  console.log(gallery);
+  gallery.refresh();
+};
 
 exports.refresher = refresher;
 },{"axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css","./hw11":"js/hw11.js"}],"js/hw11.js":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.refs = void 0;
 
 require("../sass/main.scss");
 
@@ -6336,6 +6335,10 @@ var _notiflix = _interopRequireDefault(require("notiflix"));
 var _cardsMarkUp = _interopRequireDefault(require("../partials/cardsMarkUp.hbs"));
 
 var _service = require("./service.js");
+
+var _simplelightbox = _interopRequireDefault(require("simplelightbox"));
+
+require("simplelightbox/dist/simple-lightbox.min.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6347,7 +6350,6 @@ const refs = {
   header: document.querySelector('.header'),
   scrollTarget: document.querySelector('.scrollTarget')
 };
-exports.refs = refs;
 const service = new _service.Api(); // фиксируем хедер и отступ по низу---------------------------
 
 const {
@@ -6360,7 +6362,9 @@ document.body.style.paddingBottom = `20px`; // ---------------------------------
 const handler = hits => {
   refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkUp.default)(hits));
   (0, _service.hundlerSimpleLightBox)();
-  (0, _service.refresher)();
+  var gallery2 = $('.gallery a').simpleLightbox();
+  gallery2.next(); // Next Image
+  // gallery.SimpleLightbox.refresher();
 };
 
 const onSubmit = e => {
@@ -6404,7 +6408,7 @@ observer.observe(refs.scrollTarget); // ------------------------------
 // --- Слушатели ----------------
 
 refs.form.addEventListener('submit', onSubmit);
-},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
+},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./sass/main.scss");
@@ -6438,7 +6442,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1069" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52389" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
