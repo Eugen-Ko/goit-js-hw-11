@@ -4,23 +4,13 @@ import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import  {refs} from './hw11';
+
 // --- Класс с обработчиками ---------------
 export class Api {
   constructor() {
-    this.page = 0;
+    this.page = 1;
     this.searchValue = '';
-  }
-  
-  getValue() {
-    return this.searchValue;    
-  }
-  
-  saveValue() {
-    return this.searchValue = value; 
-  }
-
-  getPage() {
-    return this.page
   }
   
   incrementPage() {
@@ -28,10 +18,8 @@ export class Api {
   }
 
   resetPage() {
-    this.page = 0;
+    this.page = 1;
   }
-
-  nextPage() {}
 
   async fetch() {
     this.incrementPage();
@@ -63,4 +51,6 @@ export const hundlerSimpleLightBox = () => {
     scrollZoom: false,     
   }); 
 }
+
+export const refresher = () => refs.gallery.refresh();
 

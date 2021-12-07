@@ -16,7 +16,7 @@
 .container {
   margin: 0 auto;
   padding: 0 15px;
-  width: 1280px;
+  max-width: 1280px;
   display: flex;
   justify-content: center;
 }
@@ -49,9 +49,24 @@
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(4, 290px);
+  grid-template-columns: repeat(1, 290px);
   grid-auto-rows: 290px;
   gap: 30px;
+}
+@media screen and (min-width: 640px) {
+  .gallery {
+    grid-template-columns: repeat(2, 290px);
+  }
+}
+@media screen and (min-width: 960px) {
+  .gallery {
+    grid-template-columns: repeat(3, 290px);
+  }
+}
+@media screen and (min-width: 1280px) {
+  .gallery {
+    grid-template-columns: repeat(4, 290px);
+  }
 }
 
 .photo-card {
@@ -61,13 +76,14 @@
   gap: 5px;
   position: relative;
   transform: scale(1);
+  transition-duration: 300ms;
   box-shadow: 0 5px 5px -4px black;
 }
 
 .photo-card:hover,
 .photo-card:focus {
   transform: scale(1.1);
-  transition-duration: 250ms;
+  transition-duration: 300ms;
 }
 
 .photo-card img {
@@ -83,9 +99,7 @@
   grid-auto-columns: 290px;
   gap: 5px;
   text-align: center;
-  bottom: 0;
-  left: 0;
-  border-radius: 5px;
+  font-size: 15px;
   display: flex;
   padding: 0 5px;
   background-color: #FFFFFF;

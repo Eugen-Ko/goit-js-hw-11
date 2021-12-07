@@ -6255,7 +6255,7 @@ global.SimpleLightbox = SimpleLightbox;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hundlerSimpleLightBox = exports.Api = void 0;
+exports.refresher = exports.hundlerSimpleLightBox = exports.Api = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -6263,26 +6263,16 @@ var _simplelightbox = _interopRequireDefault(require("simplelightbox"));
 
 require("simplelightbox/dist/simple-lightbox.min.css");
 
+var _hw = require("./hw11");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // --- Импорт ------------------------------
 // --- Класс с обработчиками ---------------
 class Api {
   constructor() {
-    this.page = 0;
+    this.page = 1;
     this.searchValue = '';
-  }
-
-  getValue() {
-    return this.searchValue;
-  }
-
-  saveValue() {
-    return this.searchValue = value;
-  }
-
-  getPage() {
-    return this.page;
   }
 
   incrementPage() {
@@ -6290,10 +6280,8 @@ class Api {
   }
 
   resetPage() {
-    this.page = 0;
+    this.page = 1;
   }
-
-  nextPage() {}
 
   async fetch() {
     this.incrementPage();
@@ -6329,8 +6317,17 @@ const hundlerSimpleLightBox = () => {
 };
 
 exports.hundlerSimpleLightBox = hundlerSimpleLightBox;
-},{"axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css"}],"js/hw11.js":[function(require,module,exports) {
+
+const refresher = () => _hw.refs.gallery.refresh();
+
+exports.refresher = refresher;
+},{"axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css","./hw11":"js/hw11.js"}],"js/hw11.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.refs = void 0;
 
 require("../sass/main.scss");
 
@@ -6346,13 +6343,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // --- Инициализация ------------
 const refs = {
   gallery: document.querySelector('.gallery'),
-  form: document.getElementById('search-form')
+  form: document.getElementById('search-form'),
+  header: document.querySelector('.header'),
+  scrollTarget: document.querySelector('.scrollTarget')
 };
+exports.refs = refs;
 const service = new _service.Api(); // фиксируем хедер и отступ по низу---------------------------
 
 const {
   height: pageHeaderHeight
-} = document.querySelector(".header").getBoundingClientRect();
+} = refs.header.getBoundingClientRect();
 document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
 document.body.style.paddingBottom = `20px`; // -----------------------------------------------------------
 // --- Обработка ----------------
@@ -6360,29 +6360,48 @@ document.body.style.paddingBottom = `20px`; // ---------------------------------
 const handler = hits => {
   refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkUp.default)(hits));
   (0, _service.hundlerSimpleLightBox)();
+  (0, _service.refresher)();
 };
 
 const onSubmit = e => {
   e.preventDefault(e);
+  refs.gallery.innerHTML = '';
   service.searchValue = e.target[0].value;
 
   try {
     if (service.searchValue === '') {
-      return _notiflix.default.Notify.failure('No value entered');
+      return _notiflix.default.Notify.failure('No value entered !!!');
     }
 
     ;
     service.resetPage();
+    e.target[0].value = '';
     service.fetch().then(response => {
-      _notiflix.default.Notify.info(`Found ${response.data.total} photos !!!`);
+      if (!response.data.hits.length) {
+        _notiflix.default.Notify.warning(`Sorry, there are no images matching your search query. Please try again.`);
+
+        return;
+      }
+
+      ;
+
+      _notiflix.default.Notify.info(`Hooray! We found ${response.data.total} images !!!`);
 
       handler(response.data.hits);
     });
   } catch (error) {
     console.error(error);
   }
-}; // --- Слушатели ----------------
+}; // Прокрутка --------------------
 
+
+const observer = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && service.searchValue !== '') {
+    service.fetch().then(response => handler(response.data.hits));
+  }
+}, {});
+observer.observe(refs.scrollTarget); // ------------------------------
+// --- Слушатели ----------------
 
 refs.form.addEventListener('submit', onSubmit);
 },{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkUp.hbs":"partials/cardsMarkUp.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
@@ -6419,7 +6438,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "10713" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1069" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
