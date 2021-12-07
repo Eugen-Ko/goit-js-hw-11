@@ -6343,7 +6343,6 @@ var _service = require("./service.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // --- Импорты ------------------
-// import {imageOfLightbox} from './js/lightbox.js';
 // --- Инициализация ------------
 const refs = {
   gallery: document.querySelector('.gallery'),

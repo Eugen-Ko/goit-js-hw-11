@@ -2,7 +2,7 @@
 import '../sass/main.scss';
 import Notiflix from 'notiflix';
 import cardsMarkUpHbs from '../partials/cardsMarkUp.hbs';
-// import {imageOfLightbox} from './js/lightbox.js';
+
 import  {Api, hundlerSimpleLightBox} from './service.js'
 
 // --- Инициализация ------------
