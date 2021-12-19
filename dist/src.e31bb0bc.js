@@ -6255,7 +6255,11 @@ global.SimpleLightbox = SimpleLightbox;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hundlerSimpleLightBox = exports.Api = void 0;
+exports.scrolling = exports.tryHandler = exports.pagePreparation = exports.fixedHeader = exports.Api = void 0;
+
+require("../sass/main.scss");
+
+var _cardsMarkup = _interopRequireDefault(require("../partials/cardsMarkup.hbs"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -6300,10 +6304,10 @@ class Api {
     });
   }
 
-} // --- Просмотрщик изображений --------------
-
+}
 
 exports.Api = Api;
+; // --- Просмотрщик изображений --------------
 
 const hundlerSimpleLightBox = () => {
   const lightbox = new _simplelightbox.default(".gallery a", {
@@ -6315,17 +6319,88 @@ const hundlerSimpleLightBox = () => {
     scrollZoom: false
   });
   return lightbox;
+}; // --- фиксируем хедер и отступ по низу---------
+
+
+const fixedHeader = () => {
+  const {
+    height: pageHeaderHeight
+  } = _hw.refs.header.getBoundingClientRect();
+
+  document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
+  document.body.style.paddingBottom = `20px`;
+}; // --- Обработка галлереи -------
+// export 
+
+
+exports.fixedHeader = fixedHeader;
+
+const handler = hits => {
+  _hw.refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkup.default)(hits));
+
+  hundlerSimpleLightBox();
+}; // --- Подготовка страницы -------
+
+
+const pagePreparation = e => {
+  e.preventDefault(e);
+  _hw.refs.gallery.innerHTML = '';
+  _hw.service.searchValue = e.target[0].value;
+}; // --- Сброс счетчика и поля инпут ----
+
+
+exports.pagePreparation = pagePreparation;
+
+const refreshConst = e => {
+  _hw.service.resetPage();
+
+  e.target[0].value = '';
+}; // --- Обработка ответа -------
+
+
+const responseHandler = response => {
+  if (!response.data.hits.length) {
+    return (0, _hw.notiflixWarning)();
+  }
+
+  (0, _hw.notiflixInfo)(response.data.total);
+  handler(response.data.hits);
+}; // --- Обработка try ------------
+
+
+const tryHandler = e => {
+  if (_hw.service.searchValue === '') {
+    return _hw.notiflixFailure;
+  }
+
+  ;
+  refreshConst(e);
+
+  _hw.service.fetch().then(response => responseHandler(response));
+}; // --- Прокрутка ------------------
+
+
+exports.tryHandler = tryHandler;
+const observer = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && _hw.service.searchValue !== '') {
+    _hw.service.fetch().then(response => handler(response.data.hits));
+  }
+}, {});
+
+const scrolling = () => {
+  observer.observe(_hw.refs.scrollTarget);
 };
 
-exports.hundlerSimpleLightBox = hundlerSimpleLightBox;
-},{"axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css","./hw11":"js/hw11.js"}],"js/hw11.js":[function(require,module,exports) {
+exports.scrolling = scrolling;
+},{"../sass/main.scss":"sass/main.scss","../partials/cardsMarkup.hbs":"partials/cardsMarkup.hbs","axios":"../node_modules/axios/index.js","simplelightbox":"../node_modules/simplelightbox/dist/simple-lightbox.modules.js","simplelightbox/dist/simple-lightbox.min.css":"../node_modules/simplelightbox/dist/simple-lightbox.min.css","./hw11":"js/hw11.js"}],"js/hw11.js":[function(require,module,exports) {
 "use strict";
 
-require("../sass/main.scss");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.notiflixInfo = exports.notiflixWarning = exports.notiflixFailure = exports.service = exports.refs = void 0;
 
 var _notiflix = _interopRequireDefault(require("notiflix"));
-
-var _cardsMarkup = _interopRequireDefault(require("../partials/cardsMarkup.hbs"));
 
 var _service = require("./service.js");
 
@@ -6339,62 +6414,45 @@ const refs = {
   header: document.querySelector('.header'),
   scrollTarget: document.querySelector('.scrollTarget')
 };
-const service = new _service.Api(); // фиксируем хедер и отступ по низу---------------------------
+exports.refs = refs;
+const service = new _service.Api();
+exports.service = service;
 
-const {
-  height: pageHeaderHeight
-} = refs.header.getBoundingClientRect();
-document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
-document.body.style.paddingBottom = `20px`; // -----------------------------------------------------------
-// --- Обработка ----------------
-
-const handler = hits => {
-  refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkup.default)(hits));
-  (0, _service.hundlerSimpleLightBox)();
+const notiflixFailure = () => {
+  _notiflix.default.Notify.failure('No value entered !!!');
 };
 
+exports.notiflixFailure = notiflixFailure;
+
+const notiflixWarning = () => {
+  _notiflix.default.Notify.warning(`Sorry, there are no images matching your search query. Please try again.`);
+};
+
+exports.notiflixWarning = notiflixWarning;
+
+const notiflixInfo = total => {
+  _notiflix.default.Notify.info(`Hooray! We found ${total} images !!!`);
+}; // --- Фиксация заголовка -------
+
+
+exports.notiflixInfo = notiflixInfo;
+(0, _service.fixedHeader)(); // --- Обработка нажатия кнопки -
+
 const onSubmit = e => {
-  e.preventDefault(e);
-  refs.gallery.innerHTML = '';
-  service.searchValue = e.target[0].value;
+  (0, _service.pagePreparation)(e);
 
   try {
-    if (service.searchValue === '') {
-      return _notiflix.default.Notify.failure('No value entered !!!');
-    }
-
-    ;
-    service.resetPage();
-    e.target[0].value = '';
-    service.fetch().then(response => {
-      if (!response.data.hits.length) {
-        _notiflix.default.Notify.warning(`Sorry, there are no images matching your search query. Please try again.`);
-
-        return;
-      }
-
-      ;
-
-      _notiflix.default.Notify.info(`Hooray! We found ${response.data.total} images !!!`);
-
-      handler(response.data.hits);
-    });
+    (0, _service.tryHandler)(e);
   } catch (error) {
     console.error(error);
   }
 }; // Прокрутка --------------------
 
 
-const observer = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting && service.searchValue !== '') {
-    service.fetch().then(response => handler(response.data.hits));
-  }
-}, {});
-observer.observe(refs.scrollTarget); // ------------------------------
-// --- Слушатели ----------------
+(0, _service.scrolling)(); // --- Слушатели ----------------
 
 refs.form.addEventListener('submit', onSubmit);
-},{"../sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","../partials/cardsMarkup.hbs":"partials/cardsMarkup.hbs","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
+},{"notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.2.min.js","./service.js":"js/service.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./sass/main.scss");
@@ -6428,7 +6486,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56745" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62109" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
