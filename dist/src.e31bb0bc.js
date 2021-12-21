@@ -6289,7 +6289,7 @@ class Api {
 
   async fetch() {
     this.incrementPage();
-    return await (0, _axios.default)({
+    return (0, _axios.default)({
       method: 'get',
       url: 'https://pixabay.com/api/',
       params: {
@@ -6304,23 +6304,10 @@ class Api {
     });
   }
 
-}
+} // --- фиксируем хедер и отступ по низу---------
+
 
 exports.Api = Api;
-; // --- Просмотрщик изображений --------------
-
-const hundlerSimpleLightBox = () => {
-  const lightbox = new _simplelightbox.default(".gallery a", {
-    captionSelector: "img",
-    //   captionsData: "alt", 
-    captionPosition: "bottom",
-    captionDelay: 250,
-    showCounter: false,
-    scrollZoom: false
-  });
-  return lightbox;
-}; // --- фиксируем хедер и отступ по низу---------
-
 
 const fixedHeader = () => {
   const {
@@ -6329,24 +6316,16 @@ const fixedHeader = () => {
 
   document.body.style.paddingTop = `${pageHeaderHeight + 20}px`;
   document.body.style.paddingBottom = `20px`;
-}; // --- Обработка галлереи -------
-// export 
+}; // --- Подготовка страницы -------
 
 
 exports.fixedHeader = fixedHeader;
-
-const handler = hits => {
-  _hw.refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkup.default)(hits));
-
-  hundlerSimpleLightBox();
-}; // --- Подготовка страницы -------
-
 
 const pagePreparation = e => {
   e.preventDefault(e);
   _hw.refs.gallery.innerHTML = '';
   _hw.service.searchValue = e.target[0].value;
-}; // --- Сброс счетчика и поля инпут ----
+}; // --- Обработка try ------------
 
 
 exports.pagePreparation = pagePreparation;
@@ -6355,8 +6334,7 @@ const refreshConst = e => {
   _hw.service.resetPage();
 
   e.target[0].value = '';
-}; // --- Обработка ответа -------
-
+};
 
 const responseHandler = response => {
   if (!response.data.hits.length) {
@@ -6365,15 +6343,30 @@ const responseHandler = response => {
 
   (0, _hw.notiflixInfo)(response.data.total);
   handler(response.data.hits);
-}; // --- Обработка try ------------
+};
 
+const hundlerSimpleLightBox = () => {
+  return new _simplelightbox.default('.gallery a', {
+    captionSelector: 'img',
+    captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250,
+    showCounter: false,
+    scrollZoom: false
+  });
+};
+
+const handler = hits => {
+  _hw.refs.gallery.insertAdjacentHTML('beforeend', (0, _cardsMarkup.default)(hits));
+
+  hundlerSimpleLightBox();
+};
 
 const tryHandler = e => {
   if (_hw.service.searchValue === '') {
     return _hw.notiflixFailure;
   }
 
-  ;
   refreshConst(e);
 
   _hw.service.fetch().then(response => responseHandler(response));
@@ -6486,7 +6479,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62109" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61321" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
